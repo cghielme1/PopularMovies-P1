@@ -1,10 +1,9 @@
 package com.example.android.popularmovies;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,9 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,24 +22,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class MovieListFragment extends Fragment
 {
     public final String LOG_TAG = MovieListFragment.class.getSimpleName();
-    ArrayAdapter<String> mMoviesAdapter;
+    MoviePosterAdapter mMoviesAdapter;
 
     public MovieListFragment()
     {
     }
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        updateMovies();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -50,6 +39,24 @@ public class MovieListFragment extends Fragment
         super.onCreate(savedInstanceState);
         // allow fragment to handle menu events
         setHasOptionsMenu(true);
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_movie_images, container, false);
+
+        mMoviesAdapter = new MoviePosterAdapter(getActivity(),
+                R.layout.fragment_movie_images, new ArrayList<Movie>());
+
+        GridView gv = (GridView)rootView.findViewById(R.id.movieGridView);
+        gv.setAdapter(mMoviesAdapter);
+
+        return rootView;
     }
 
     @Override
@@ -71,34 +78,7 @@ public class MovieListFragment extends Fragment
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        mMoviesAdapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_item_movie, R.id.list_item_movie_textview,
-                new ArrayList<String>());
-
-        ListView movieList = (ListView) rootView.findViewById(R.id.listview_movies);
-        movieList.setAdapter(mMoviesAdapter);
-
-        movieList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long id)
-            {
-                Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
-                //Movie movieData = (Movie)mMoviesAdapter.getItem(i);
-                //detailIntent.putExtra("movieData", )
-            }
-        });
-
-        return rootView;
-    }
-
-
+    // start the background task to get the movie list
     private void updateMovies()
     {
         Log.v(LOG_TAG, "Entering updateMovies");
@@ -106,12 +86,14 @@ public class MovieListFragment extends Fragment
         getMovies.execute("test");
     }
 
+    // Called when the AsyncTask completes - copy the new list of movies into
+    // the adapter
     private void updateMovieView(List<Movie> movieList)
     {
         mMoviesAdapter.clear();
         for( Movie movie : movieList )
         {
-            mMoviesAdapter.add(movie.getTitle());
+            mMoviesAdapter.add(movie);
         }
     }
 
@@ -223,3 +205,4 @@ public class MovieListFragment extends Fragment
         }
     }
 }
+
