@@ -40,27 +40,26 @@ public class MoviePosterAdapter extends ArrayAdapter<Movie>
         Movie movie;
 
         if ( convertView == null )
-        {
-            // get layout
+        {   // get new layout
             itemView = inflater.inflate(R.layout.grid_item_movie, null);
-
-            // find ImageView
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.movieImage);
-
-            // get the current Movie object from the adapter
-            movie = movieList.get(position);
-
-            // get the full URL of the poster image
-            String imageUrl = "http://image.tmdb.org/t/p/w185/" + movie.getImagePath();
-
-            Picasso.with(context).load(imageUrl).into(imageView);
-
-            //imageView.setImageResource(R.drawable.interstellar);
         }
         else
-        {
+        {   // reuse an existing view
             itemView = (View) convertView;
         }
+
+        // find ImageView
+        ImageView imageView = (ImageView)itemView.findViewById(R.id.movieImage);
+
+        // get the current Movie object from the adapter
+        movie = movieList.get(position);
+
+        // get the full URL of the poster image
+        if ( !movie.getImagePath().equals("null"))
+        {   String imageUrl = "http://image.tmdb.org/t/p/w185/" + movie.getImagePath();
+            Picasso.with(context).load(imageUrl).into(imageView);
+        }
+
         return itemView;
     }
 

@@ -6,14 +6,5 @@
 
     </style>
 
-    <style name="MovieTitle">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">#00838F</item>
-        <item name="android:textSize">30sp</item>
-
-
-    </style>
 
 </resources>

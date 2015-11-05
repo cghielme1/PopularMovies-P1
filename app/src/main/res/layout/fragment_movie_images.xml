@@ -11,7 +11,7 @@
         android:layout_height="fill_parent"
         android:id="@+id/movieGridView"
         android:layout_gravity="left"
-        android:numColumns="2"
+        android:numColumns="@integer/gridNumColumns"
         android:stretchMode="columnWidth"/>
 
 

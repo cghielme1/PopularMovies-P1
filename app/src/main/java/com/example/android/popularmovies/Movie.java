@@ -14,9 +14,9 @@ public class Movie implements Parcelable
     private Date mReleaseDate;
     private double mVoteRating;
     private double mPopularity;
+    private int mVoteCount;
     private String mImagePath;
     private String mSynopsis;
-
 
 
     public Movie()
@@ -30,12 +30,14 @@ public class Movie implements Parcelable
         mReleaseDate = Date.valueOf(in.readString());
         mVoteRating = in.readDouble();
         mPopularity = in.readDouble();
+        mVoteCount = in.readInt();
         mImagePath = in.readString();
         mSynopsis = in.readString();
 
     }
 
 
+    // Getters and Setters
     public String getTitle()
     {
         return mTitle;
@@ -43,7 +45,9 @@ public class Movie implements Parcelable
 
     public void setTitle(String mTitle)
     {
-        this.mTitle = mTitle;
+        if ( mTitle.equals("null"))
+            this.mTitle = "";
+        else this.mTitle = mTitle;
     }
 
     public Date getReleaseDate()
@@ -76,6 +80,16 @@ public class Movie implements Parcelable
         this.mPopularity = mPopularity;
     }
 
+    public int getmVoteCount()
+    {
+        return mVoteCount;
+    }
+
+    public void setmVoteCount(int mVoteCount)
+    {
+        this.mVoteCount = mVoteCount;
+    }
+
     public String getImagePath()
     {
         return mImagePath;
@@ -96,6 +110,7 @@ public class Movie implements Parcelable
         this.mSynopsis = mSynopsis;
     }
 
+
     @Override
     public int describeContents()
     {
@@ -109,6 +124,7 @@ public class Movie implements Parcelable
         dest.writeString(mReleaseDate.toString());
         dest.writeDouble(mVoteRating);
         dest.writeDouble(mPopularity);
+        dest.writeInt(mVoteCount);
         dest.writeString(mImagePath);
         dest.writeString(mSynopsis);
 

@@ -1,13 +1,18 @@
 package com.example.android.popularmovies;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -38,7 +43,10 @@ public class MovieUtils
                 movie.setTitle(movieData.getString("original_title"));
                 movie.setPopularity(movieData.getDouble("popularity"));
                 movie.setVoteRating(movieData.getDouble("vote_average"));
-                movie.setReleaseDate(Date.valueOf(movieData.getString("release_date")));
+                String inputDate = movieData.getString("release_date");
+                movie.setmVoteCount(movieData.getInt("vote_count"));
+                String releaseDate = (inputDate.equals("null") ? "1990-01-01" : inputDate);
+                movie.setReleaseDate(Date.valueOf(releaseDate));
                 movie.setImagePath(movieData.getString("poster_path"));
                 movie.setSynopsis(movieData.getString("overview"));
 
@@ -54,6 +62,13 @@ public class MovieUtils
         return movieList;
 
 
+    }
+
+    public static void GetMoviePosterImage(Context context, ImageView imageView, String imagePath)
+    {
+        String imageUrl = "http://image.tmdb.org/t/p/w185/" + imagePath;
+
+        Picasso.with(context).load(imageUrl).into(imageView);
     }
 
 

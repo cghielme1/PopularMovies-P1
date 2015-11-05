@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+    <ListPreference
+        android:title="Sort Order"
+        android:key="@string/pref_sortby_key"
+        android:defaultValue="@string/pref_sortby_rating"
+        android:entryValues="@array/pref_sortby_entryvalues"
+        android:entries="@array/pref_sortby_entries"
+        android:persistent="true"/>
+
+
+</PreferenceScreen>
